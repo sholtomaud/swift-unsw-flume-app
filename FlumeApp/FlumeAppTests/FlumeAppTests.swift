@@ -1,13 +1,14 @@
 //
-//  Flume_AppTests.swift
-//  Flume AppTests
+//  FlumeAppTests.swift
+//  FlumeAppTests
 //
-//  Created by Sholto Maud on 25/6/2025.
+//  Created by Sholto Maud on 28/6/2025.
 //
 
 import Testing
+@testable import FlumeApp
 
-struct Flume_AppTests {
+struct FlumeAppTests {
 
     @Test func example() async throws {
         // Write your test here and use APIs like `#expect(...)` to check expected conditions.

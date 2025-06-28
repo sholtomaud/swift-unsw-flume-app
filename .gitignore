@@ -14,12 +14,12 @@ xcuserdata/
 # Swift Package Manager
 .build/
 
-# CocoaPods
+# CocoaPods (if used)
 Pods/
 .symlinks/
 build/
 
-# Carthage
+# Carthage (if used)
 Carthage/Build/
 
 # General
@@ -33,6 +33,9 @@ Carthage/Build/
 .wafpickle-N
 .AppleDouble
 .LSOverride
+*.log
+*.temp
+*.tmp
 
 # Crashlytics
 com.crashlytics.mac

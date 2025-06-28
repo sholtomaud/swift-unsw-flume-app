@@ -1,13 +1,13 @@
 //
-//  Flume_AppUITests.swift
-//  Flume AppUITests
+//  FlumeAppUITests.swift
+//  FlumeAppUITests
 //
-//  Created by Sholto Maud on 25/6/2025.
+//  Created by Sholto Maud on 28/6/2025.
 //
 
 import XCTest
 
-final class Flume_AppUITests: XCTestCase {
+final class FlumeAppUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
