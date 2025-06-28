@@ -108,7 +108,7 @@ This document outlines the plan for developing a production-ready SwiftUI iOS mo
 
 ## Requirements
 
-*   **Target Device:** iPhone 12 mini.
+*   **Target Device:** iPhone 12 mini (iOS 18.5).
 *   **Technology Stack:** Exclusively SwiftUI for UI; Swift for all logic.
 *   **Development Environment:** macOS with Xcode command-line tools installed.
 *   **Build Process:** Must be entirely command-line driven using `xcodebuild`.
