@@ -1,13 +1,13 @@
 //
-//  Flume_AppUITestsLaunchTests.swift
-//  Flume AppUITests
+//  FlumeAppUITestsLaunchTests.swift
+//  FlumeAppUITests
 //
-//  Created by Sholto Maud on 25/6/2025.
+//  Created by Sholto Maud on 28/6/2025.
 //
 
 import XCTest
 
-final class Flume_AppUITestsLaunchTests: XCTestCase {
+final class FlumeAppUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

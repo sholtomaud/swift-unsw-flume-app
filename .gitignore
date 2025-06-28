@@ -1,0 +1,52 @@
+# Xcode
+.DS_Store
+*.xcodeproj
+*.xcworkspace
+*.playground
+*.xccheckout
+*.xcscmblueprint
+*.build
+*.xcdatamodeld
+*.swiftpm/
+DerivedData/
+xcuserdata/
+
+# Swift Package Manager
+.build/
+
+# CocoaPods (if used)
+Pods/
+.symlinks/
+build/
+
+# Carthage (if used)
+Carthage/Build/
+
+# General
+.swift-version
+.vscode/
+.idea/
+*.bak
+*.swp
+*~
+.lock-waf_
+.wafpickle-N
+.AppleDouble
+.LSOverride
+*.log
+*.temp
+*.tmp
+
+# Crashlytics
+com.crashlytics.mac
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/
+fastlane/test_output/
+
+# Code coverage
+*.profdata
+*.profraw
+*.coverage
