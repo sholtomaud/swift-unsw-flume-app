@@ -27,7 +27,6 @@ To build and run the application on an iPhone 12 mini simulator, use the `build.
 ```
 This script handles simulator creation, booting, app cleaning, building, installation, and launching.
 
-
 ### Running Tests
 To run all tests for the project on an iPhone 12 mini simulator:
 
@@ -53,7 +52,6 @@ Additionally, ensure code quality by adhering to Swift linting and formatting st
     sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
     ```
 
-
 ## Project Structure and Conventions
 *   Adhere to the existing project structure and naming conventions.
 *   Minimize comments in code; focus on self-documenting code.
@@ -70,6 +68,15 @@ To ensure efficient and reliable development, the following principles should be
 6.  **Continuous Improvement:** Regularly review and refine development workflows and tools. Learn from past incidents and proactively implement improvements to prevent recurrence.
 
 ## Git Workflow and Best Practices
+
+### Handling Interactive Commands
+As a CLI agent, I cannot directly interact with text editors (like Vim) that may open during certain Git operations (e.g., `git rebase -i`, `git commit` without a message). To avoid interruptions and ensure smooth operations, please consider the following:
+
+*   **Configure Git for Non-Interactive Use:** Set your Git editor to a non-interactive one or configure Git to use a specific editor that can be controlled programmatically. For example, you can set `GIT_EDITOR` environment variable or configure `core.editor`.
+*   **Provide Messages Directly:** For commands like `git commit`, provide the commit message directly using the `-m` flag or by piping the message from a file using `-F`.
+*   **Avoid Interactive Rebases:** If possible, prefer `git merge` or `git rebase` without the `-i` (interactive) flag. If an interactive rebase is necessary, you will need to manually intervene to resolve conflicts and continue the rebase process.
+
+
 *   **Branching:** For each new feature or bug fix, create a new branch from `main` (or `develop` if applicable) using a descriptive name (e.g., `feature/add-wifi-config`, `bugfix/fix-data-sync`).
 *   **Committing:** Make small, atomic commits with clear and concise commit messages.
 *   **Testing Before Commit:** Before committing any changes, ensure all relevant unit and UI tests pass. Run the project's test suite using `xcodebuild test` to verify functionality and prevent regressions.
@@ -78,6 +85,4 @@ To ensure efficient and reliable development, the following principles should be
 
 ### Pull Request Management
 *   **Reviewer Comments:** Periodically check for reviewer comments on open Pull Requests. If comments are present, address them by updating the code and pushing new commits to the branch.
-
 *   **Merged PRs:** If a Pull Request has been merged, consider the task complete and proceed to the next task in the `PROJECT_PLAN.md`.
-
