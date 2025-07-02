@@ -8,6 +8,7 @@ enum ExperimentStatus: String, Codable {
     case failed = "Failed"
 }
 
+<<<<<<< HEAD
 struct Experiment: Identifiable, Codable {
     let id: UUID
     var name: String
@@ -60,3 +61,6 @@ struct ExperimentMetadata: Codable {
     var deviceID: String?
     // Add other metadata fields as needed
 }
+=======
+
+>>>>>>> 61a933c (feat: Resolve compiler errors and improve code readability)

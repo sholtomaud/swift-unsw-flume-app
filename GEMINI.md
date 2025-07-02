@@ -13,53 +13,19 @@ Develop a production-ready SwiftUI iOS mobile application specifically for the i
 1.  **Frameworks:** The application must exclusively use SwiftUI for its user interface.
 2.  **Coding Standards:** All code must adhere strictly to Apple's Swift coding best practices and Human Interface Guidelines.
 3.  **Tooling:**
-    *   Development, building, and testing must be performed using only command-line tools available in the terminal.
-    *   **No direct interaction with the Xcode GUI is permitted for core development tasks.**
+    *   Development, building, and testing should primarily be performed using command-line tools available in the terminal.
+    *   **Crucial Note on Initial Setup and Complex Configurations:** For initial project creation (e.g., `FlumeApp` project setup) and complex project configurations (e.g., `Info.plist` entries, entitlements, provisioning profiles), direct interaction with the Xcode GUI is **recommended and often necessary** to ensure correct and persistent setup. Command-line tools can be brittle for these tasks.
     *   The primary tools to be used are `xcodebuild` and `xcrun simctl`.
 
 ## Command-Line Operations
 
-### Building the Application
-To build the application for the iOS Simulator (specifically targeting iPhone 12 mini):
+### Building and Running the Application
+To build and run the application on an iPhone 12 mini simulator, use the `build.sh` script:
 
 ```bash
-xcodebuild build -scheme "FlumeApp" -destination 'platform=iOS Simulator,name=iPhone 12 mini'
+./build.sh
 ```
-*Note: The scheme "FlumeApp" is assumed based on the project structure. Verify if a different scheme is required.*
-
-### Running the Application on Simulator
-To run the application on an iPhone 12 mini simulator:
-
-1.  **Ensure Simulator is Booted:**
-    ```bash
-    open -a Simulator # Opens the Simulator.app GUI
-    # Wait for simulator to fully boot if it wasn't already.
-    # Alternatively, you can explicitly boot a specific UDID:
-    # xcrun simctl boot <UDID_of_iPhone_12_mini_simulator>
-    ```
-    To find the UDID of an iPhone 12 mini simulator:
-    ```bash
-    xcrun simctl list devices | grep "iPhone 12 mini"
-    ```
-
-2.  **Install and Launch (after building):**
-    First, determine the `APP_PATH` (path to the built `.app` bundle). This often involves inspecting the `DerivedData` directory. A common pattern is:
-    ```bash
-    # This is an example and may need adjustment based on your DerivedData structure
-    APP_PATH="${HOME}/Library/Developer/Xcode/DerivedData/FlumeApp-*/Build/Products/Debug-iphonesimulator/FlumeApp.app"
-    # You might need to use `find` or `ls -d` to get the exact path if the hash part changes.
-    ```
-    Then:
-    ```bash
-    xcrun simctl install booted "$APP_PATH"
-    xcrun simctl launch booted com.yourcompany.FlumeApp # Assuming bundle identifier, verify this.
-    ```
-
-3.  **Combined Build and Launch (Common Workflow):**
-    ```bash
-    xcodebuild build -scheme "FlumeApp" -destination 'platform=iOS Simulator,name=iPhone 12 mini' && xcrun simctl launch "iPhone 12 mini" com.yourcompany.FlumeApp
-    ```
-    *Note: The bundle identifier `com.yourcompany.FlumeApp` is an assumption. It needs to be verified from the project settings (e.g., `project.pbxproj` or `Info.plist`).*
+This script handles simulator creation, booting, app cleaning, building, installation, and launching.
 
 ### Running Tests
 To run all tests for the project on an iPhone 12 mini simulator:
@@ -69,16 +35,37 @@ xcodebuild test -scheme "FlumeApp" -destination 'platform=iOS Simulator,name=iPh
 ```
 *Note: Adjust scheme if necessary.*
 
+### Verification
+After making code changes, always run the project's tests and ensure they pass:
+
+```bash
+xcodebuild test -scheme "FlumeApp" -destination 'platform=iOS Simulator,name=iPhone 12 mini'
+```
+Additionally, ensure code quality by adhering to Swift linting and formatting standards. While there isn't an explicit linting command in the project, Xcode's build process often includes some static analysis. For more rigorous checks, consider integrating a tool like SwiftLint.
+
 ### Other Useful Command-Line Tools
 *   `swiftc`: The Swift compiler.
 *   `swift build`, `swift test`, `swift run`: For Swift Package Manager (SPM) related tasks.
 *   `instruments`: For performance profiling (command-line capabilities).
-*   `xcode-select`: To manage Xcode versions (`sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`).
+*   `xcode-select`: To manage Xcode versions. If you encounter issues with Xcode command-line tools, you might need to set the developer directory:
+    ```bash
+    sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+    ```
 
 ## Project Structure and Conventions
 *   Adhere to the existing project structure and naming conventions.
 *   Minimize comments in code; focus on self-documenting code.
 *   Ensure all changes are idiomatic to SwiftUI and Swift.
+
+## Operational Excellence and Toil Minimization
+To ensure efficient and reliable development, the following principles should be adhered to:
+
+1.  **Automate Repetitive Tasks:** Identify and automate any manual, repetitive tasks (e.g., build processes, testing, deployments). This reduces human error and frees up time for more complex problem-solving.
+2.  **Minimize Toil:** Actively work to reduce "toil" – manual, repetitive, automatable, tactical, and devoid of enduring value tasks. If a task is performed more than once, consider automating it.
+3.  **Robust Tooling:** Prioritize the use of robust and reliable command-line tools and scripts for development, building, and testing. Ensure these tools are well-documented and easy to use.
+4.  **Clear Error Handling and Logging:** Implement clear error handling and comprehensive logging in scripts and application code to quickly identify and diagnose issues.
+5.  **Idempotent Operations:** Design scripts and processes to be idempotent, meaning that performing the operation multiple times will have the same effect as performing it once. This is crucial for reliability in automated systems.
+6.  **Continuous Improvement:** Regularly review and refine development workflows and tools. Learn from past incidents and proactively implement improvements to prevent recurrence.
 
 ## Git Workflow and Best Practices
 *   **Branching:** For each new feature or bug fix, create a new branch from `main` (or `develop` if applicable) using a descriptive name (e.g., `feature/add-wifi-config`, `bugfix/fix-data-sync`).
