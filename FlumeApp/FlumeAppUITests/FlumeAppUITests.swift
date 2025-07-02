@@ -37,26 +37,37 @@ final class FlumeAppUITests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
 
-        // Navigate to Dashboard (if not already there)
-        app.tabBars.buttons["Dashboard"].tap()
+        // Navigate to Experiments tab
+        app.tabBars.buttons["Experiments"].tap()
 
         // Tap the "Add Experiment" button
-        app.buttons["Add Experiment"].tap()
+        app.navigationBars["Experiments"].buttons["Add Experiment"].tap()
 
-        // Fill in experiment details
-        let experimentNameTextField = app.textFields["Experiment Name"]
+        // Fill in experiment details within the sheet
+        let experimentNameTextField = app.sheets.textFields["Experiment Name"]
         experimentNameTextField.tap()
         experimentNameTextField.typeText("My UI Test Experiment")
+        app.keyboards.buttons["Done"].tap() // Dismiss keyboard
 
-        let notesTextField = app.textFields["Notes"]
+        let notesTextField = app.sheets.textFields["Notes"]
         notesTextField.tap()
         notesTextField.typeText("Notes from UI test")
+        app.keyboards.buttons["Done"].tap() // Dismiss keyboard
 
         // Tap Save button
-        app.buttons["Save"].tap()
+        app.sheets.buttons["Save"].tap()
 
         // Verify the new experiment appears in the list
-        XCTAssertTrue(app.staticTexts["My UI Test Experiment"].exists)
+        // Verify the new experiment appears in the list using its accessibility identifier
+        let newExperimentName = "My UI Test Experiment"
+        let newExperimentElement = app.staticTexts[newExperimentName]
+        XCTAssertTrue(newExperimentElement.exists)
+
+        // Tap on the newly created experiment to navigate to its detail view
+        newExperimentElement.tap()
+
+        // Verify that the detail view is displayed by checking for a unique element
+        XCTAssertTrue(app.staticTexts["Notes from UI test"].exists)
     }
 
     @MainActor

@@ -23,8 +23,7 @@ struct DashboardView: View {
     }
 
     var body: some View {
-        NavigationView {
-            List {
+        List {
                 Section(header: Text("Wi-Fi Status")) {
                     Text("Connected: \(wifiManager.isConnectedToTargetWiFi ? "Yes" : "No")")
                     Text("Target Network: \(wifiManager.targetNetworkName ?? "Not Set")")
@@ -102,8 +101,7 @@ struct DashboardView: View {
             .sheet(isPresented: $showingAddExperimentSheet) {
                 ExperimentCreationView()
             }
-            Text("Select an experiment")
-        }
+            
     }
 
     private func addExperiment() {
