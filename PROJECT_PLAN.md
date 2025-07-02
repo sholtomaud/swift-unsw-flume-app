@@ -9,11 +9,11 @@ This document outlines the plan for developing a production-ready SwiftUI iOS mo
 **Goal:** Establish the foundational structure of the application, including main views and navigation flow.
 
 #### Tasks:
-- [ ] **Task 1.1:** Project Setup and Initial View
+- [x] **Task 1.1:** Project Setup and Initial View
   - Verify Xcode project setup for SwiftUI.
   - Create the initial `ContentView.swift` with a basic "Hello, Flume!" display.
   - Ensure the app builds and runs on the iPhone 12 mini simulator using `xcodebuild` and `xcrun simctl`.
-- [ ] **Task 1.2:** Main Navigation Implementation
+- [x] **Task 1.2:** Main Navigation Implementation
   - Implement a `TabView` or `NavigationView` (as appropriate for the app's primary navigation) to allow for multiple main sections.
   - Define placeholder views for each main section (e.g., Dashboard, Settings).
 
@@ -21,13 +21,14 @@ This document outlines the plan for developing a production-ready SwiftUI iOS mo
 **Goal:** Implement mechanisms for handling and persisting application data.
 
 #### Tasks:
-- [ ] **Task 2.1:** Data Model Definition
+
+- [x] **Task 2.1:** Data Model Definition
   - Define core data structures using `Codable` protocols for easy serialization/deserialization.
   - Define `Experiment` structure including configuration parameters, status (not run, running, success, fail), associated video paths, and notes.
   - Define time-series data structure for 5 configurable sensors (4 ultrasonic, 1 magnetic switch) for both real-time and historical storage.
   - Define metadata structures associated with experiments.
   - Consider using `ObservableObject` and `@Published` for reactive data flow in SwiftUI.
-- [ ] **Task 2.2:** Local Data Persistence
+- [x] **Task 2.2:** Local Data Persistence
   - Implement data persistence using `UserDefaults` for simple key-value pairs or `Core Data`/`SwiftData` for more complex object graphs.
   - Ensure data can be saved and loaded across app launches.
 
@@ -35,39 +36,41 @@ This document outlines the plan for developing a production-ready SwiftUI iOS mo
 **Goal:** Establish robust communication with the Raspberry Pi server for real-time data streaming and control commands, including Wi-Fi management.
 
 #### Tasks:
-- [ ] **Task 3.1:** Wi-Fi Connection Management
+
+- [x] **Task 3.1:** Wi-Fi Connection Management
   - Implement functionality to add and store new Wi-Fi network credentials securely within the app.
   - Enable the app to automatically join configured Wi-Fi networks.
   - Display Wi-Fi connection status on the dashboard, indicating if the target network is not found.
-- [ ] **Task 3.2:** SSE Client Implementation
+- [x] **Task 3.2:** SSE Client Implementation
   - Develop a client to connect to and receive real-time time-series data via Server-Sent Events (SSE) from the Raspberry Pi.
-- [ ] **Task 3.3:** REST Client Implementation
+- [x] **Task 3.3:** REST Client Implementation
   - Implement a client for sending control and configuration commands (e.g., start/stop experiment) to the Python REST server on the Raspberry Pi.
-- [ ] **Task 3.4:** Network Connectivity Monitoring
+- [x] **Task 3.4:** Network Connectivity Monitoring
   - Implement logic to monitor and display connection status to the Raspberry Pi, including error handling for disconnections.
 
 ### Epic 4: Experiment Dashboard & Data Visualization
 **Goal:** Provide a comprehensive overview of experiments and visualize real-time and historical sensor data.
 
 #### Tasks:
-- [ ] **Task 4.1:** Experiment Listing View
+- [x] **Task 4.1:** Experiment Listing View
   - Design and implement the main dashboard view to list all configured experiments.
   - Display experiment status (e.g., "not run," "running," "success," "fail").
-- [ ] **Task 4.2:** Real-time Data Display
+- [x] **Task 4.2:** Real-time Data Display
   - Implement a charting or visualization component to display streaming time-series data for the 5 configurable sensors in real-time within an active experiment's view.
-- [ ] **Task 4.3:** Historical Data Display
+- [x] **Task 4.3:** Historical Data Display
   - Implement functionality to display historical time-series data for completed experiments.
 
 ### Epic 5: Experiment Configuration & Control
 **Goal:** Enable users to create, configure, and control experiments within the app.
 
 #### Tasks:
-- [ ] **Task 5.1:** Manual Experiment Creation
+
+- [x] **Task 5.1:** Manual Experiment Creation
   - Implement a flow and form for users to manually create new experiment configurations from the main dashboard.
-- [ ] **Task 5.2:** Start/Stop Experiment Control
+- [x] **Task 5.2:** Start/Stop Experiment Control
   - Develop a toggle button within the experiment view to send "start" and "stop/pause" REST requests to the server.
   - Update the button's display and app state based on the experiment's running status.
-- [ ] **Task 5.3:** Experiment Configuration Form
+- [x] **Task 5.3:** Experiment Configuration Form
   - Create a dedicated form view for configuring an experiment, displaying all existing (or new) configurations.
   - Implement an "Edit" button to unlock the form for modifications.
   - Ensure sensor configurations are manageable within this form.
@@ -76,11 +79,11 @@ This document outlines the plan for developing a production-ready SwiftUI iOS mo
 **Goal:** Integrate video recording and provide a robust mechanism for syncing all collected data with a laptop.
 
 #### Tasks:
-- [ ] **Task 6.1:** Video Recording Integration
+- [x] **Task 6.1:** Video Recording Integration
   - Implement functionality to capture video recordings during an experiment, including camera access and storage.
-- [ ] **Task 6.2:** Notes Input
+- [x] **Task 6.2:** Notes Input
   - Add a text input field within the experiment view for users to enter manual notes.
-- [ ] **Task 6.3:** Data Sync Mechanism
+- [x] **Task 6.3:** Data Sync Mechanism
   - Design and implement a method to connect to a laptop to sync all associated data (time-series, video, notes, metadata).
   - Implement checksum validation to ensure data integrity during the sync process.
 
@@ -88,10 +91,10 @@ This document outlines the plan for developing a production-ready SwiftUI iOS mo
 **Goal:** Develop a visually appealing and intuitive user interface following Apple's Human Interface Guidelines.
 
 #### Tasks:
-- [ ] **Task 7.1:** Custom UI Components
+- [x] **Task 7.1:** Custom UI Components
   - Design and implement reusable SwiftUI views for common UI elements (e.g., custom buttons, input fields).
   - Ensure components are responsive and adapt to different content sizes.
-- [ ] **Task 7.2:** Accessibility Implementation
+- [x] **Task 7.2:** Accessibility Implementation
   - Add accessibility modifiers to all UI elements to ensure the app is usable by individuals with disabilities.
   - Verify accessibility features using Xcode's Accessibility Inspector (if command-line accessible, otherwise note for manual verification).
 
@@ -99,16 +102,15 @@ This document outlines the plan for developing a production-ready SwiftUI iOS mo
 **Goal:** Ensure the application is robust, stable, and free of critical bugs through comprehensive testing.
 
 #### Tasks:
-- [ ] **Task 8.1:** Unit Testing
+- [x] **Task 8.1:** Unit Testing
   - Write unit tests for all core logic and data models using XCTest.
   - Automate unit test execution via `xcodebuild test`.
-- [ ] **Task 8.2:** UI Testing
+- [x] **Task 8.2:** UI Testing
   - Write UI tests using XCUITest to verify critical user flows.
   - Automate UI test execution via `xcodebuild test`.
 
 ## Requirements
-
-*   **Target Device:** iPhone 12 mini (iOS 18.5).
+*   **Target Device:** iPhone 12 mini.
 *   **Technology Stack:** Exclusively SwiftUI for UI; Swift for all logic.
 *   **Development Environment:** macOS with Xcode command-line tools installed.
 *   **Build Process:** Must be entirely command-line driven using `xcodebuild`.

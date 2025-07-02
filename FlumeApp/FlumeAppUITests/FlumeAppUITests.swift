@@ -32,6 +32,35 @@ final class FlumeAppUITests: XCTestCase {
     }
 
     @MainActor
+
+    func testExperimentCreationFlow() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        // Navigate to Dashboard (if not already there)
+        app.tabBars.buttons["Dashboard"].tap()
+
+        // Tap the "Add Experiment" button
+        app.buttons["Add Experiment"].tap()
+
+        // Fill in experiment details
+        let experimentNameTextField = app.textFields["Experiment Name"]
+        experimentNameTextField.tap()
+        experimentNameTextField.typeText("My UI Test Experiment")
+
+        let notesTextField = app.textFields["Notes"]
+        notesTextField.tap()
+        notesTextField.typeText("Notes from UI test")
+
+        // Tap Save button
+        app.buttons["Save"].tap()
+
+        // Verify the new experiment appears in the list
+        XCTAssertTrue(app.staticTexts["My UI Test Experiment"].exists)
+    }
+
+    @MainActor
+
     func testLaunchPerformance() throws {
         // This measures how long it takes to launch your application.
         measure(metrics: [XCTApplicationLaunchMetric()]) {

@@ -14,18 +14,16 @@ struct ContentView: View {
                 .tabItem {
                     Label("Dashboard", systemImage: "gauge.with.needle")
                 }
-            
-            Text("Experiments View (Placeholder)")
+                .accessibilityLabel("Dashboard Tab")
+                .accessibilityHint("Navigates to the main dashboard where you can view Wi-Fi status, SSE messages, REST commands, and a list of experiments.")
+
+            ExperimentView()
                 .tabItem {
                     Label("Experiments", systemImage: "flask")
                 }
-            
-            Text("Settings View (Placeholder)")
-                .tabItem {
-                    Label("Settings", systemImage: "gear")
-                }
+                .accessibilityLabel("Experiments Tab")
+                .accessibilityHint("Navigates to the experiments view where you can manage and view details of your experiments.")
         }
-        .preferredColorScheme(.dark)
     }
 }
 

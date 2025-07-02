@@ -1,0 +1,124 @@
+
+# Command Log
+
+## Command 1
+Command: `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`
+Description: Setting the active Xcode developer directory to the full Xcode application. This requires administrator privileges.
+Directory: `(root)`
+
+## Command 2
+Command: `xcrun simctl create "iPhone 12 mini" com.apple.CoreSimulator.SimDeviceType.iPhone-12-mini com.apple.CoreSimulator.SimRuntime.iOS-18-5`
+Description: Creating an iPhone 12 mini simulator with the correct runtime.
+Directory: `(root)`
+
+## Command 3
+Command: `xcodebuild build -scheme "FlumeApp" -destination 'platform=iOS Simulator,name=iPhone 12 mini'`
+Description: Building the project for the iPhone 12 mini simulator.
+Directory: `FlumeApp/`
+
+## Command 4
+Command: `xcrun simctl launch E707873D-FBC2-49F3-B396-BB0B143879D7 UNSW.FlumeApp`
+Description: Launching the FlumeApp on the iPhone 12 mini simulator.
+Directory: `(root)`
+
+## Command 5
+Command: `find ~/Library/Developer/Xcode/DerivedData/FlumeApp-*/Build/Products/Debug-iphonesimulator -name "FlumeApp.app"`
+Description: Finding the path to the built .app bundle.
+Directory: `(root)`
+
+## Command 6
+Command: `xcrun simctl install E707873D-FBC2-49F3-B396-BB0B143879D7 "/Users/sholtomaud/Library/Developer/Xcode/DerivedData/FlumeApp-euidoujmymibgxgdegbjkhvmruzz/Build/Products/Debug-iphonesimulator/FlumeApp.app"`
+Description: Installing the FlumeApp on the iPhone 12 mini simulator.
+Directory: `(root)`
+
+## Command 7
+Command: `xcrun simctl boot E707873D-FBC2-49F3-B396-BB0B143879D7`
+Description: Booting the iPhone 12 mini simulator.
+Directory: `(root)`
+
+## Command 8
+Command: `xcrun simctl spawn E707873D-FBC2-49F3-B396-BB0B143879D7 log stream --predicate 'process == "SpringBoard" || process == "UNSW.FlumeApp"' &`
+Description: Starting a log stream from the simulator to capture launch errors.
+Directory: `(root)`
+
+## Command 9
+Command: `kill 47208`
+Description: Stopping the log stream.
+Directory: `(root)`
+
+## Command 10
+Command: `xcrun simctl delete E707873D-FBC2-49F3-B396-BB0B143879D7`
+Description: Deleting the iPhone 12 mini simulator.
+Directory: `(root)`
+
+## Command 11
+Command: `xcodebuild clean -scheme "FlumeApp"`
+Description: Cleaning the build folder.
+Directory: `FlumeApp/`
+
+## Command 12
+Command: `xcrun simctl erase E707873D-FBC2-49F3-B396-BB0B143879D7`
+Description: Erasing the iPhone 12 mini simulator to clear its state.
+Directory: `(root)`
+
+## Command 13
+Command: `xcodebuild -target FlumeApp IPHONEOS_DEPLOYMENT_TARGET=18.5`
+Description: Setting the iOS Deployment Target to 18.5 for the FlumeApp target.
+Directory: `FlumeApp/`
+
+## Command 14
+Command: `xcodebuild -target FlumeApp -config Debug -scheme FlumeApp IPHONEOS_DEPLOYMENT_TARGET=18.5 build -allowProvisioningUpdates`
+Description: Setting the IPHONEOS_DEPLOYMENT_TARGET to 18.5 for the Debug configuration and building with provisioning updates.
+Directory: `FlumeApp/`
+
+## Command 15
+Command: `git add .gitignore`
+Description: Staging the .gitignore file.
+Directory: `.`
+
+## Command 16
+Command: `git add PROJECT_PLAN.md GEMINI.md`
+Description: Staging PROJECT_PLAN.md and GEMINI.md.
+Directory: `.`
+
+## Command 17
+Command: `git commit -m "feat: Initial project setup and Info.plist fix; Update PROJECT_PLAN.md with checkboxes and GEMINI.md with self-correction instructions"`
+Description: Committing initial project setup, Info.plist fix, and documentation updates.
+Directory: `.`
+
+## Command 18
+Command: `git checkout -b feature/main-navigation`
+Description: Creating a new branch for main navigation implementation.
+Directory: `.`
+
+## Command 19
+Command: `git checkout main`
+Description: Switching to the main branch.
+Directory: `.`
+
+## Command 20
+Command: `git branch -D feature/main-navigation`
+Description: Deleting the feature/main-navigation branch.
+Directory: `.`
+
+## Command 21
+Command: `write_file(content = "...", file_path = "/Users/sholtomaud/Development/swift-unsw-flume-app/FlumeApp/FlumeApp/DashboardView.swift")`
+Description: Creating DashboardView.swift.
+Directory: `(not applicable, absolute path used)`
+
+## Command 22
+Command: `replace(file_path = "/Users/sholtomaud/Development/swift-unsw-flume-app/FlumeApp/FlumeApp/ContentView.swift", new_string = "...", old_string = "...")`
+Description: Modifying ContentView.swift to integrate DashboardView and TabView.
+Directory: `(not applicable, absolute path used)`
+
+## Command 23
+Command: `write_file(content = "...", file_path = "/Users/sholtomaud/Development/swift-unsw-flume-app/FlumeApp/FlumeApp/Info.plist")`
+Description: Re-creating Info.plist with NSCameraUsageDescription.
+Directory: `(not applicable, absolute path used)`
+
+## Command 24
+Command: `sed -i '' '/PRODUCT_BUNDLE_IDENTIFIER = "UNSW.FlumeApp";/{i \
+\t\t\t\tINFOPLIST_KEY_NSCameraUsageDescription = "This app uses the camera to record video of experiments.";
+}' "/Users/sholtomaud/Development/swift-unsw-flume-app/FlumeApp/FlumeApp.xcodeproj/project.pbxproj"`
+Description: Adding NSCameraUsageDescription to Debug configuration in project.pbxproj using sed.
+Directory: `(root)`
