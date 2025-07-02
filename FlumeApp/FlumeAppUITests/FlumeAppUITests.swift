@@ -32,6 +32,7 @@ final class FlumeAppUITests: XCTestCase {
     }
 
     @MainActor
+
     func testExperimentCreationFlow() throws {
         let app = XCUIApplication()
         app.launch()
@@ -59,6 +60,7 @@ final class FlumeAppUITests: XCTestCase {
     }
 
     @MainActor
+
     func testLaunchPerformance() throws {
         // This measures how long it takes to launch your application.
         measure(metrics: [XCTApplicationLaunchMetric()]) {

@@ -27,6 +27,7 @@ To build and run the application on an iPhone 12 mini simulator, use the `build.
 ```
 This script handles simulator creation, booting, app cleaning, building, installation, and launching.
 
+
 ### Running Tests
 To run all tests for the project on an iPhone 12 mini simulator:
 
@@ -52,6 +53,7 @@ Additionally, ensure code quality by adhering to Swift linting and formatting st
     sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
     ```
 
+
 ## Project Structure and Conventions
 *   Adhere to the existing project structure and naming conventions.
 *   Minimize comments in code; focus on self-documenting code.
@@ -76,4 +78,6 @@ To ensure efficient and reliable development, the following principles should be
 
 ### Pull Request Management
 *   **Reviewer Comments:** Periodically check for reviewer comments on open Pull Requests. If comments are present, address them by updating the code and pushing new commits to the branch.
+
 *   **Merged PRs:** If a Pull Request has been merged, consider the task complete and proceed to the next task in the `PROJECT_PLAN.md`.
+

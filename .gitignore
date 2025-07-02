@@ -50,3 +50,6 @@ fastlane/test_output/
 *.profdata
 *.profraw
 *.coverage
+
+temp
+

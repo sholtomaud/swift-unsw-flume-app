@@ -21,6 +21,7 @@ This document outlines the plan for developing a production-ready SwiftUI iOS mo
 **Goal:** Implement mechanisms for handling and persisting application data.
 
 #### Tasks:
+
 - [x] **Task 2.1:** Data Model Definition
   - Define core data structures using `Codable` protocols for easy serialization/deserialization.
   - Define `Experiment` structure including configuration parameters, status (not run, running, success, fail), associated video paths, and notes.
@@ -35,6 +36,7 @@ This document outlines the plan for developing a production-ready SwiftUI iOS mo
 **Goal:** Establish robust communication with the Raspberry Pi server for real-time data streaming and control commands, including Wi-Fi management.
 
 #### Tasks:
+
 - [x] **Task 3.1:** Wi-Fi Connection Management
   - Implement functionality to add and store new Wi-Fi network credentials securely within the app.
   - Enable the app to automatically join configured Wi-Fi networks.
@@ -62,6 +64,7 @@ This document outlines the plan for developing a production-ready SwiftUI iOS mo
 **Goal:** Enable users to create, configure, and control experiments within the app.
 
 #### Tasks:
+
 - [x] **Task 5.1:** Manual Experiment Creation
   - Implement a flow and form for users to manually create new experiment configurations from the main dashboard.
 - [x] **Task 5.2:** Start/Stop Experiment Control
@@ -107,7 +110,6 @@ This document outlines the plan for developing a production-ready SwiftUI iOS mo
   - Automate UI test execution via `xcodebuild test`.
 
 ## Requirements
-
 *   **Target Device:** iPhone 12 mini.
 *   **Technology Stack:** Exclusively SwiftUI for UI; Swift for all logic.
 *   **Development Environment:** macOS with Xcode command-line tools installed.

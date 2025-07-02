@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct FlumeAppApp: App {
+
     let persistenceController = PersistenceController.shared
 
     @StateObject private var sseClient = SSEClient()
@@ -18,6 +19,7 @@ struct FlumeAppApp: App {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environmentObject(sseClient)
+
         }
     }
 }
