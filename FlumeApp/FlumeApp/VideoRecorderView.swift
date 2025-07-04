@@ -70,6 +70,12 @@ struct VideoRecorderView: UIViewControllerRepresentable {
 
         func setupCamera(in view: UIView) {
             print("Attempting to set up camera.")
+            // Check if running in UI Test mode
+            if ProcessInfo.processInfo.environment["XCUITEST_MODE"] == "1" {
+                print("Running in UI Test mode, skipping camera setup.")
+                return
+            }
+
             // Request camera and microphone access
             AVCaptureDevice.requestAccess(for: .video) { [weak self] grantedVideo in
                 AVCaptureDevice.requestAccess(for: .audio) { [weak self] grantedAudio in

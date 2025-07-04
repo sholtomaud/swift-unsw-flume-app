@@ -28,15 +28,16 @@ To build and run the application on an iPhone 12 mini simulator, use the `build.
 This script handles simulator creation, booting, app cleaning, building, installation, and launching.
 
 ### Running Tests
-To run all tests for the project on an iPhone 12 mini simulator:
+To run all tests for the project on an iPhone 12 mini simulator, use the `test_all.sh` script:
 
 ```bash
-xcodebuild test -scheme "FlumeApp" -destination 'platform=iOS Simulator,name=iPhone 12 mini'
+./test_all.sh
 ```
-*Note: Adjust scheme if necessary.*
+This script handles simulator creation, booting, and then runs the `xcodebuild test` command. It ensures a clean and consistent test environment for automated UI tests.
 
 **Important Note on Video Recording Tests:**
 Due to the nature of video recording and camera access, UI tests involving video recording (`testVideoRecordingFlow()`) are designed to be run on a physical iOS device. These tests are excluded from the automated CLI test suite for simulator environments. Manual verification on a physical device is required for these features.
+
 
 
 ### Verification
