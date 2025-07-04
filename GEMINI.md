@@ -35,6 +35,10 @@ xcodebuild test -scheme "FlumeApp" -destination 'platform=iOS Simulator,name=iPh
 ```
 *Note: Adjust scheme if necessary.*
 
+**Important Note on Video Recording Tests:**
+Due to the nature of video recording and camera access, UI tests involving video recording (`testVideoRecordingFlow()`) are designed to be run on a physical iOS device. These tests are excluded from the automated CLI test suite for simulator environments. Manual verification on a physical device is required for these features.
+
+
 ### Verification
 After making code changes, always run the project's tests and ensure they pass:
 
