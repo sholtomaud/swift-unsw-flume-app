@@ -58,10 +58,9 @@ final class FlumeAppUITests: XCTestCase {
         app.sheets.buttons["Save"].tap()
 
         // Verify the new experiment appears in the list
-        // Verify the new experiment appears in the list using its accessibility identifier
         let newExperimentName = "My UI Test Experiment"
         let newExperimentElement = app.staticTexts[newExperimentName]
-        XCTAssertTrue(newExperimentElement.exists)
+        XCTAssertTrue(newExperimentElement.waitForExistence(timeout: 5))
 
         // Tap on the newly created experiment to navigate to its detail view
         newExperimentElement.tap()

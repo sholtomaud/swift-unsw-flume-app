@@ -79,11 +79,11 @@ This document outlines the plan for developing a production-ready SwiftUI iOS mo
 **Goal:** Integrate video recording and provide a robust mechanism for syncing all collected data with a laptop.
 
 #### Tasks:
-- [x] **Task 6.1:** Video Recording Integration
+- [ ] **Task 6.1:** Video Recording Integration
   - Implement functionality to capture video recordings during an experiment, including camera access and storage.
-- [x] **Task 6.2:** Notes Input
+- [ ] **Task 6.2:** Notes Input
   - Add a text input field within the experiment view for users to enter manual notes.
-- [x] **Task 6.3:** Data Sync Mechanism
+- [ ] **Task 6.3:** Data Sync Mechanism
   - Design and implement a method to connect to a laptop to sync all associated data (time-series, video, notes, metadata).
   - Implement checksum validation to ensure data integrity during the sync process.
 
@@ -132,3 +132,5 @@ This document outlines the plan for developing a production-ready SwiftUI iOS mo
 *   App Store submission process.
 *   Storage management and warnings for large data.
 *   Specific UI/UX for supervisory data display (e.g., thresholds, alarms).
+
+

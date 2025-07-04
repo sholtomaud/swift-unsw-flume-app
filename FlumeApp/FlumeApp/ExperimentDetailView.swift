@@ -37,10 +37,6 @@ struct ExperimentDetailView: View {
         }
     }
 
-    private func sortedSensorDataPoints(from sensorData: NSSet) -> [SensorDataPoint] {
-        sensorData.allObjects.compactMap { $0 as? SensorDataPoint }.sorted(by: { $0.timestamp ?? Date.distantPast < $1.timestamp ?? Date.distantPast })
-    }
-
     var body: some View {
         Form {
             Section(header: Text("Experiment Details")) {
@@ -74,6 +70,7 @@ struct ExperimentDetailView: View {
             }
 
             Section(header: Text("Sensor Data")) {
+                Text("Video Recording Status: Ready")
                 Text("Latest SSE Message: \(sseClient.latestMessage)")
                 Button("Connect to SSE (http://localhost:8080/events)") {
                     sseClient.connect(to: URL(string: "http://localhost:8080/events")!)
@@ -82,6 +79,7 @@ struct ExperimentDetailView: View {
                 Button("Record Video") {
                     showingVideoRecorderSheet = true
                 }
+                .accessibilityIdentifier("RecordVideoButton")
                 .sheet(isPresented: $showingVideoRecorderSheet) {
                     VideoRecorderView(onVideoRecorded: { videoURL in
                         experiment.videoPath = videoURL.absoluteString
@@ -94,13 +92,11 @@ struct ExperimentDetailView: View {
                     })
                 }
 
-                if let sensorData = experiment.sensorData as? NSSet {
-                    ForEach(sortedSensorDataPoints(from: sensorData)) { dataPoint in
-                        VStack(alignment: .leading) {
-                            Text("Timestamp: \(dataPoint.timestamp ?? Date(), formatter: itemFormatter)")
-                            Text("Ultrasonic 1: \(ultrasonic1Text(for: dataPoint))")
-                            Text("Magnetic Switch: \(magneticSwitchStatus(for: dataPoint))")
-                        }
+                if let dataPoint = experiment.sensorData {
+                    VStack(alignment: .leading) {
+                        Text("Timestamp: \(dataPoint.timestamp ?? Date(), formatter: itemFormatter)")
+                        Text("Ultrasonic 1: \(ultrasonic1Text(for: dataPoint))")
+                        Text("Magnetic Switch: \(magneticSwitchStatus(for: dataPoint))")
                     }
                 }
             }

@@ -50,86 +50,193 @@ struct VideoRecorderView: UIViewControllerRepresentable {
     }
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(self)
+        Coordinator(dismissAction: { presentationMode.wrappedValue.dismiss() }, onVideoRecorded: onVideoRecorded)
     }
 
     class Coordinator: NSObject, AVCaptureFileOutputRecordingDelegate {
-        var parent: VideoRecorderView
-        var captureSession: AVCaptureSession!
-        var movieOutput: AVCaptureMovieFileOutput!
+        var captureSession: AVCaptureSession?
+        var movieOutput: AVCaptureMovieFileOutput?
         var previewLayer: AVCaptureVideoPreviewLayer!
-        var isRecording = false
         weak var recordButton: UIButton? // Use weak to avoid retain cycle
+        private let sessionQueue = DispatchQueue(label: "session queue")
 
-        init(_ parent: VideoRecorderView) {
-            self.parent = parent
+        var dismissAction: (() -> Void)?
+        var onVideoRecordedAction: ((URL) -> Void)?
+
+        init(dismissAction: (() -> Void)?, onVideoRecorded: ((URL) -> Void)?) {
+            self.dismissAction = dismissAction
+            self.onVideoRecordedAction = onVideoRecorded
         }
 
         func setupCamera(in view: UIView) {
-            captureSession = AVCaptureSession()
-            captureSession.sessionPreset = .high
+            print("Attempting to set up camera.")
+            // Request camera and microphone access
+            AVCaptureDevice.requestAccess(for: .video) { [weak self] grantedVideo in
+                AVCaptureDevice.requestAccess(for: .audio) { [weak self] grantedAudio in
+                    guard let self = self else { return }
+                    if grantedVideo && grantedAudio {
+                        self.sessionQueue.async { [weak self] in
+                            guard let self = self else { return }
+                            self.configureCamera(in: view)
+                        }
+                    } else {
+                        print("Camera or microphone access denied.")
+                    }
+                }
+            }
+        }
 
-            guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else { return }
-            guard let videoInput = try? AVCaptureDeviceInput(device: videoDevice) else { return }
-            if captureSession.canAddInput(videoInput) {
-                captureSession.addInput(videoInput)
+        private func configureCamera(in view: UIView) {
+            print("Camera and microphone access granted.")
+            self.captureSession = AVCaptureSession()
+            self.captureSession?.sessionPreset = .high
+
+            // Configure video input
+            guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
+                print("Failed to get video device.")
+                return
+            }
+            guard let videoInput = try? AVCaptureDeviceInput(device: videoDevice) else {
+                print("Failed to create video input.")
+                return
+            }
+            if self.captureSession?.canAddInput(videoInput) == true {
+                self.captureSession?.addInput(videoInput)
+                print("Video input added.")
+            } else {
+                print("Failed to add video input to capture session.")
+                return
             }
 
-            guard let audioDevice = AVCaptureDevice.default(for: .audio) else { return }
-            guard let audioInput = try? AVCaptureDeviceInput(device: audioDevice) else { return }
-            if captureSession.canAddInput(audioInput) {
-                captureSession.addInput(audioInput)
+            // Configure audio input
+            guard let audioDevice = AVCaptureDevice.default(for: .audio) else {
+                print("Failed to get audio device.")
+                return
+            }
+            guard let audioInput = try? AVCaptureDeviceInput(device: audioDevice) else {
+                print("Failed to create audio input.")
+                return
+            }
+            if self.captureSession?.canAddInput(audioInput) == true {
+                self.captureSession?.addInput(audioInput)
+                print("Audio input added.")
+            } else {
+                print("Failed to add audio input to capture session.")
+                return
             }
 
-            movieOutput = AVCaptureMovieFileOutput()
-            if captureSession.canAddOutput(movieOutput) {
-                captureSession.addOutput(movieOutput)
+            // Configure movie output
+            self.movieOutput = AVCaptureMovieFileOutput()
+            if let movieOutput = self.movieOutput, self.captureSession?.canAddOutput(movieOutput) == true {
+                self.captureSession?.addOutput(movieOutput)
+                print("Movie output added.")
+                // Ensure the movie output has a connection to the video input
+                if let connection = movieOutput.connection(with: .video) {
+                    if connection.isCameraIntrinsicMatrixDeliverySupported {
+                        connection.isCameraIntrinsicMatrixDeliveryEnabled = true
+                    }
+                }
+            } else {
+                print("Failed to add movie output to capture session.")
+                return
             }
 
-            previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-            previewLayer.frame = view.bounds
-            previewLayer.videoGravity = .resizeAspectFill
-            view.layer.insertSublayer(previewLayer, at: 0) // Insert at 0 to be behind buttons
+            // Start capture session
+            self.captureSession?.startRunning()
+            print("Capture session started running.")
 
-            DispatchQueue.global(qos: .userInitiated).async {
-                self.captureSession.startRunning()
+            // Configure preview layer on the main thread after session starts
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                if let captureSession = self.captureSession {
+                    self.previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+                    self.previewLayer.frame = view.bounds
+                    self.previewLayer.videoGravity = .resizeAspectFill
+                    view.layer.insertSublayer(self.previewLayer, at: 0) // Insert at 0 to be behind buttons
+                    print("Preview layer configured.")
+                }
             }
         }
 
         @objc func toggleRecording(_ sender: UIButton) {
-            if isRecording {
-                stopRecording()
-                sender.setTitle("Start Recording", for: .normal)
-                sender.backgroundColor = .green
-            } else {
-                startRecording()
-                sender.setTitle("Stop Recording", for: .normal)
-                sender.backgroundColor = .red
+            sessionQueue.async { [weak self] in
+                guard let self = self else { return }
+                guard let movieOutput = self.movieOutput else { return }
+
+                if movieOutput.isRecording {
+                    self.stopRecording()
+                    DispatchQueue.main.async {
+                        sender.setTitle("Start Recording", for: .normal)
+                        sender.backgroundColor = .green
+                    }
+                } else {
+                    self.startRecording()
+                    DispatchQueue.main.async {
+                        sender.setTitle("Stop Recording", for: .normal)
+                        sender.backgroundColor = .red
+                    }
+                }
             }
-            isRecording.toggle()
         }
 
         @objc func dismiss() {
-            parent.presentationMode.wrappedValue.dismiss()
+            dismissAction?()
         }
 
         func startRecording() {
-            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-            let fileUrl = paths[0].appendingPathComponent("output.mov")
+            guard let movieOutput = movieOutput,
+                  let captureSession = captureSession,
+                  captureSession.isRunning,
+                  !movieOutput.isRecording else {
+                print("Cannot start recording.")
+                return
+            }
+
+            guard let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+                print("Could not find document directory.")
+                return
+            }
+            let fileUrl = paths.appendingPathComponent("output.mov")
+            // Remove the file if it already exists
+            if FileManager.default.fileExists(atPath: fileUrl.path) {
+                do {
+                    try FileManager.default.removeItem(at: fileUrl)
+                } catch {
+                    print("Could not remove existing file: \(error)")
+                    return
+                }
+            }
             movieOutput.startRecording(to: fileUrl, recordingDelegate: self)
         }
 
         func stopRecording() {
+            guard let movieOutput = movieOutput, movieOutput.isRecording else {
+                print("Movie output is not recording.")
+                return
+            }
             movieOutput.stopRecording()
+        }
+
+        deinit {
+            // Synchronously stop the capture session on its queue to ensure it's torn down before deallocation completes
+            sessionQueue.sync {
+                if let captureSession = self.captureSession, captureSession.isRunning {
+                    captureSession.stopRunning()
+                    print("Capture session stopped.")
+                }
+            }
         }
 
         // MARK: - AVCaptureFileOutputRecordingDelegate
         func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-            if let error = error {
-                print("Error recording movie: \(error.localizedDescription)")
-            } else {
-                print("Video recorded to: \(outputFileURL.absoluteString)")
-                parent.onVideoRecorded?(outputFileURL)
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                if let error = error {
+                    print("Error recording movie: \(error.localizedDescription)")
+                } else {
+                    print("Video recorded to: \(outputFileURL.absoluteString)")
+                    self.onVideoRecordedAction?(outputFileURL)
+                }
             }
         }
     }
