@@ -58,6 +58,7 @@ struct DashboardView: View {
                     ForEach(experiments) { experiment in
                         NavigationLink {
                             ExperimentDetailView(experiment: experiment)
+                                .environmentObject(restClient)
                         } label: {
                             Text(experiment.name ?? "Unnamed Experiment")
                         }

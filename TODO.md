@@ -11,7 +11,7 @@
 - [ ] **Start/End Time Display:**
     - [ ] Set Start Time and End Time only when the experiment is started/ended by the app. (Issue #12)
     - [ ] Display default placeholder for unset times (e.g., `-/-/----, --:--:--`). (Issue #14)
-- [ ] **REST API Error Handling:** Gracefully handle "Fatal error: No ObservableObject of type RESTClient found" when the Start Experiment button is pressed without a connected REST API. (Issue #15)
+- [x] **REST API Error Handling:** Gracefully handle "Fatal error: No ObservableObject of type RESTClient found" when the Start Experiment button is pressed without a connected REST API. (Issue #15)
 - [ ] **Start/Pause Button Toggle:** Implement the Start Experiment button to toggle to a 'Pause' button when the experiment is running. (Issue #13)
 - [ ] **Consolidate Status Displays:** Ensure Wi-Fi and server status (and ping button) are consistently displayed across relevant views (Dashboard, Experiments). (Issue #16)
 
